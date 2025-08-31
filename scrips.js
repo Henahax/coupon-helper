@@ -26,7 +26,7 @@ javascript: (function () {
     location.href = 'https://www.lidl.de/prm/promotions-list';
     window.onload = function () {
         var script = document.createElement('script');
-        script.src = 'https://raw.githubusercontent.com/USERNAME/coupon-helper/main/scrips.js';
+        script.src = 'https://raw.githubusercontent.com/Henahax/coupon-helper/main/scrips.js';
         script.onload = function () { activateCouponsLidl(); };
         document.body.appendChild(script);
     };
@@ -55,7 +55,7 @@ javascript: (function () {
     location.href = 'https://mein.kaufland.de/coupons.html';
     window.onload = function () {
         var script = document.createElement('script');
-        script.src = 'https://raw.githubusercontent.com/USERNAME/coupon-helper/main/scrips.js';
+        script.src = 'https://raw.githubusercontent.com/Henahax/coupon-helper/main/scrips.js';
         script.onload = function () { activateCouponsKaufland(); };
         document.body.appendChild(script);
     };
