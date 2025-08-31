@@ -1,5 +1,10 @@
 # Coupon helper
 
-- auf Händler Webseite anmelden
-- Skript der Webseite in Browserkonsole ausführen
-- [Skript](https://raw.githubusercontent.com/Henahax/coupon-helper/refs/heads/main/scrips.js)
+- Couponwebseite(n) öffnen
+- (ggf. anmelden)
+- komplettes Skript in Browserkonsole ausführen
+
+## aktuelle Coupon Seiten
+
+- [Lidl](https://www.lidl.de/prm/promotions-list)
+- [Kaufland](https://mein.kaufland.de/coupons.html)
