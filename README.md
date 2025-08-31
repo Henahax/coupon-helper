@@ -2,4 +2,4 @@
 
 - auf Händler Webseite anmelden
 - Skript der Webseite in Browserkonsole ausführen
-- [Skript](/refs/heads/main/scrips.js)
+- [Skript](https://raw.githubusercontent.com/Henahax/coupon-helper/refs/heads/main/scrips.js)
