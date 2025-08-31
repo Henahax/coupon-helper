@@ -1,27 +1,37 @@
 /**
- *  LIDL
- * 
- *  Webseite öffnen und anmelden:
- *  https://www.lidl.de/prm/promotions-list
- *  
+ *  Webseite öffnen und anmelden
  *  Skript in Browserkonsole ausführen (F12)
  */
 
-function activateCouponsLidl(activate = true) {
+/**
+ *  LIDL
+ *  https://www.lidl.de/prm/promotions-list
+ */
 
-    let elementClass = "bg-button_primary-positive-color-background";
+function activateCouponsLidl() {
 
-    if (!activate) {
-        elementClass = "bg-lidl-color-green";
-    }
-
-    let coupons = document.querySelectorAll(".promotion button");
+    let coupons = document.querySelectorAll(".promotion button.bg-button_primary-positive-color-background");
 
     coupons.forEach((coupon) => {
-        if (coupon.classList.contains(elementClass)) {
-            coupon.click();
-        }
+        coupon.click();
+
     });
 }
-
 activateCouponsLidl();
+
+
+/**
+ *  Kaufland
+ *  https://mein.kaufland.de/coupons.html
+ */
+
+function activateCouponsKaufland() {
+
+    let coupons = document.querySelectorAll(".m-coupon-item[data-status='0']:not(.m-coupon-item--buyable) button.m-coupon-item__button-activate.js-coupon-item__button-activate");
+
+    coupons.forEach((coupon) => {
+        coupon.click();
+    });
+}
+activateCouponsKaufland();
+
