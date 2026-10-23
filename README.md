@@ -8,3 +8,4 @@
 
 - [Lidl](https://www.lidl.de/prm/promotions-list)
 - [Kaufland](https://mein.kaufland.de/coupons.html)
+- [Payback](https://www.payback.de/coupons?from=pb)

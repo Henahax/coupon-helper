@@ -1,23 +1,62 @@
-/*
-* LIDL
-* https://www.lidl.de/prm/promotions-list
-*/
-function activateCouponsLidl() {
-    let couponsLidl = document.querySelectorAll(".promotion button.bg-button_primary-positive-color-background");
-    couponsLidl.forEach((coupon) => {
-        coupon.click();
-    });
-}
-activateCouponsLidl();
+function activateCoupons(store, selector, { requiredLabel, excludedLabels = [], excludedChildSelector } = {}) {
+    const buttons = document.querySelectorAll(selector);
+    let clicked = 0;
+    let skipped = 0;
+    let failed = 0;
 
-/*
-* Kaufland
-* https://mein.kaufland.de/coupons.html
-*/
-function activateCouponsKaufland() {
-    let kauflandCoupons = document.querySelectorAll(".m-coupon-item[data-status='0']:not(.m-coupon-item--buyable) button.m-coupon-item__button-activate.js-coupon-item__button-activate");
-    kauflandCoupons.forEach((coupon) => {
-        coupon.click();
+    buttons.forEach((button) => {
+        const label = button.textContent.trim().toLocaleLowerCase("de-DE");
+
+        if (excludedLabels.some((excludedLabel) => label === excludedLabel.toLocaleLowerCase("de-DE"))) {
+            skipped++;
+            return;
+        }
+
+        if (excludedChildSelector && button.querySelector(excludedChildSelector)) {
+            skipped++;
+            return;
+        }
+
+        if (requiredLabel && label !== requiredLabel.toLocaleLowerCase("de-DE")) {
+            skipped++;
+            return;
+        }
+
+        if (button.disabled || button.getAttribute("aria-disabled") === "true") {
+            skipped++;
+            return;
+        }
+
+        try {
+            button.click();
+            clicked++;
+        } catch (error) {
+            failed++;
+            console.error(`[${store}] Klick fehlgeschlagen:`, error);
+        }
     });
+
+    console.info(`[${store}] Buttons gefunden: ${buttons.length}; Klicks ausgelöst: ${clicked}; übersprungen: ${skipped}; Fehler: ${failed}.`);
+    console.info(`[${store}] Klicks sind keine Bestätigung, dass der Shop die Coupons erfolgreich aktiviert hat.`);
 }
-activateCouponsKaufland();
+
+const hostname = location.hostname;
+
+/* Lidl: https://www.lidl.de/prm/promotions-list */
+if (hostname === "lidl.de" || hostname.endsWith(".lidl.de")) {
+    activateCoupons("Lidl", ".promotion button.bg-button_primary-positive-color-background");
+    /* Kaufland: https://mein.kaufland.de/coupons.html */
+} else if (hostname === "kaufland.de" || hostname.endsWith(".kaufland.de")) {
+    activateCoupons("Kaufland", "button.k-coupon-activation-button.k-coupon-activation__button", {
+        requiredLabel: "Aktivieren",
+        excludedChildSelector: ".k-coupon-activation-button__buyable-text"
+    });
+    /* PAYBACK: https://www.payback.de/coupons?from=pb */
+} else if (hostname === "payback.de" || hostname.endsWith(".payback.de")) {
+    activateCoupons("PAYBACK", 'button[data-testid$="-not_activated"]', {
+        requiredLabel: "Jetzt aktivieren",
+        excludedLabels: ["JETZT TEILNEHMEN"]
+    });
+} else {
+    console.warn("[Coupon Helper] Diese Seite wird nicht unterstützt.");
+}
