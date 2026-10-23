@@ -1,5 +1,6 @@
 function activateCoupons(store, selector, { requiredLabel, excludedLabels = [], excludedChildSelector } = {}) {
     const buttons = document.querySelectorAll(selector);
+    let found = 0;
     let clicked = 0;
     let skipped = 0;
     let failed = 0;
@@ -22,6 +23,8 @@ function activateCoupons(store, selector, { requiredLabel, excludedLabels = [], 
             return;
         }
 
+        found++;
+
         if (button.disabled || button.getAttribute("aria-disabled") === "true") {
             skipped++;
             return;
@@ -36,22 +39,19 @@ function activateCoupons(store, selector, { requiredLabel, excludedLabels = [], 
         }
     });
 
-    console.info(`[${store}] Buttons gefunden: ${buttons.length}; Klicks ausgelöst: ${clicked}; übersprungen: ${skipped}; Fehler: ${failed}.`);
+    console.info(`[${store}] Coupons gefunden: ${found}; Klicks ausgelöst: ${clicked}; übersprungen: ${skipped}; Fehler: ${failed}.`);
     console.info(`[${store}] Klicks sind keine Bestätigung, dass der Shop die Coupons erfolgreich aktiviert hat.`);
 }
 
 const hostname = location.hostname;
 
-/* Lidl: https://www.lidl.de/prm/promotions-list */
 if (hostname === "lidl.de" || hostname.endsWith(".lidl.de")) {
     activateCoupons("Lidl", ".promotion button.bg-button_primary-positive-color-background");
-    /* Kaufland: https://mein.kaufland.de/coupons.html */
 } else if (hostname === "kaufland.de" || hostname.endsWith(".kaufland.de")) {
     activateCoupons("Kaufland", "button.k-coupon-activation-button.k-coupon-activation__button", {
         requiredLabel: "Aktivieren",
         excludedChildSelector: ".k-coupon-activation-button__buyable-text"
     });
-    /* PAYBACK: https://www.payback.de/coupons?from=pb */
 } else if (hostname === "payback.de" || hostname.endsWith(".payback.de")) {
     activateCoupons("PAYBACK", 'button[data-testid$="-not_activated"]', {
         requiredLabel: "Jetzt aktivieren",
